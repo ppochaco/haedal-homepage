@@ -14,7 +14,8 @@ export const NavbarItem = ({ name, href }: NavbarItemProps) => {
 
   const isActive =
     (pathname === '/' && href === '/') || //메인 페이지
-    pathname === href // 현재 페이지
+    pathname === href ||
+    pathname?.startsWith(`${href}/`)
 
   return (
     <Link
