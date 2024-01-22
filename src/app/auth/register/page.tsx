@@ -1,5 +1,9 @@
+import { RegisterForm } from "@/components/auth/register-form"
+
 const LoginPage = () => {
-  return <div className="">회원가입 페이지</div>
+  return (
+    <RegisterForm/>
+  )
 }
 
 export default LoginPage

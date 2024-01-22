@@ -4,7 +4,7 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { LoginSchema } from '@/schemas'
+import { RegisterSchema } from '@/schemas'
 import {
   Form,
   FormControl,
@@ -17,32 +17,47 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { CardWraper } from '@/components/auth/card-wrapper'
 
-export const LoginForm = () => {
+
+export const RegisterForm = () => {
   // 1. form 정의
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
+      username:'',
       userid: '',
       password: '',
     },
   })
 
   // 2. submit handler 정의
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     console.log(values)
   }
 
   return (
     <div>
       <CardWraper
-        headerTitle="Sign in to Headal"
+        headerTitle="Sign up to Headal"
         headerDescription="경북대학교 프로그래밍동아리 해달"
-        buttonLabel="회원가입하기"
-        buttonHref="/auth/register"
+        buttonLabel="로그인하기"
+        buttonHref="/auth/login"
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-2">
+            <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>이름</FormLabel>
+                    <FormControl>
+                      <Input placeholder="홍길동" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="userid"
@@ -71,7 +86,7 @@ export const LoginForm = () => {
               />
             </div>
             <Button type="submit" className="w-full">
-              로그인하기
+              회원가입하기
             </Button>
           </form>
         </Form>
