@@ -1,9 +1,7 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import React, { useEffect, useState } from 'react'
+import { FaBars } from 'react-icons/fa6'
 import { Navbar } from '@/components/navbar'
 
 export default function MobileNavbar() {
@@ -31,7 +29,7 @@ export default function MobileNavbar() {
 
   return (
     <div id="mobileNavbar">
-      <FontAwesomeIcon icon={faBars as IconProp} onClick={openMenu} />
+      <FaBars onClick={openMenu} className="cursor-pointer fa-xl" />
       {isOpen && (
         <div className="absolute top-full right-0 w-32  z-1000 bg-primary">
           <Navbar />

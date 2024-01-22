@@ -1,12 +1,8 @@
 import type { Metadata } from 'next'
-import './globals.css'
+import '@/app/globals.css'
 
 import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
-
-import { config } from '@fortawesome/fontawesome-svg-core'
-import '@fortawesome/fontawesome-svg-core/styles.css'
-config.autoAddCss = false
 
 export const metadata: Metadata = {
   title: 'KNU HAEDAL',
