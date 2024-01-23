@@ -1,7 +1,7 @@
 'use client'
 
 import * as z from 'zod'
-import { useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { CardWraper } from '@/components/auth/card-wrapper'
@@ -21,6 +22,9 @@ import { register } from '@/actions/register'
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState<string | undefined>("")
+  const [success, setSuccess] = useState<string | undefined>("")
+
   // 1. form 정의
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -33,10 +37,10 @@ export const RegisterForm = () => {
 
   // 2. submit handler 정의
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    // console.log(values)
     startTransition(() => {
       register(values).then((data) => {
-        console.log(data)
+        setError(data.error)
+        setSuccess(data.success)
       })
     })
   }
@@ -105,6 +109,16 @@ export const RegisterForm = () => {
               )}
             />
           </div>
+          {error && (
+            <div className="flex items-center justify-center rounded-lg border p-4 text-sm bg-red-50 text-red-600 font-semibold">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="flex items-center justify-center rounded-lg border p-4 text-sm bg-green-50 text-teal-600 font-semibold">
+              {success}
+            </div>
+          )}
           <Button type="submit" disabled={isPending} className="w-full">
             회원가입하기
           </Button>
