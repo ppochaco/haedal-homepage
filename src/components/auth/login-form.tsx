@@ -22,7 +22,7 @@ export const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      userid: '',
+      email: '',
       password: '',
     },
   })
@@ -45,12 +45,16 @@ export const LoginForm = () => {
             <div className="space-y-2">
               <FormField
                 control={form.control}
-                name="userid"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>아이디</FormLabel>
+                    <FormLabel>이메일</FormLabel>
                     <FormControl>
-                      <Input placeholder="haedal" {...field} />
+                      <Input
+                        placeholder="haedal@gmail.com"
+                        type="email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
