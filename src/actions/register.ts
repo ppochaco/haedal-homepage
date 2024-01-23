@@ -10,7 +10,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const fields = RegisterSchema.safeParse(values)
 
   if (!fields.success) {
-    return { error: '🚨입력된 정보를 다시 확인해주세요.' }
+    return { error: '입력된 정보를 다시 확인해주세요.' }
   }
 
   const { email, password, username } = fields.data
@@ -22,7 +22,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     },
   })
   if (existingUser) {
-    return { error: '❗️이미 가입된 회원입니다.' }
+    return { error: '이미 가입된 회원입니다.' }
   }
 
   // DB에 회원 정보 추가하기
@@ -38,5 +38,5 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   // 이메일 보내기
 
-  return { success: '🎉회원가입에 성공했습니다!' }
+  return { success: '회원가입에 성공했습니다!' }
 }

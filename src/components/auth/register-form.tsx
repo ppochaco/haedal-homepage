@@ -18,7 +18,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { CardWraper } from '@/components/auth/card-wrapper'
-import { ErrorBox, SuccessBox } from '@/components/form-state-box'
+import { FormError, FormSuccess } from '@/components/form-state-box'
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition()
@@ -112,8 +112,8 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          {success && <SuccessBox>{success}</SuccessBox>}
-          {error && <ErrorBox>{error}</ErrorBox>}
+          {success && <FormSuccess message={success} />}
+          {error && <FormError message={error} />}
           <Button type="submit" disabled={isPending} className="w-full">
             회원가입하기
           </Button>

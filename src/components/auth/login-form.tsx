@@ -18,7 +18,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { CardWraper } from '@/components/auth/card-wrapper'
-import { ErrorBox } from '@/components/form-state-box'
+import { FormError } from '@/components/form-state-box'
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition()
@@ -95,7 +95,7 @@ export const LoginForm = () => {
                 )}
               />
             </div>
-            {error && <ErrorBox>{error}</ErrorBox>}
+            {error && <FormError message={error} />}
             <Button type="submit" disabled={isPending} className="w-full">
               로그인하기
             </Button>
