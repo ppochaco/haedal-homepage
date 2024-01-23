@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { RegisterSchema } from '@/schemas'
+import { register } from '@/actions/register'
 import {
   Form,
   FormControl,
@@ -14,16 +15,15 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { CardWraper } from '@/components/auth/card-wrapper'
-import { register } from '@/actions/register'
+import { ErrorBox, SuccessBox } from '@/components/form-state-box'
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition()
-  const [error, setError] = useState<string | undefined>("")
-  const [success, setSuccess] = useState<string | undefined>("")
+  const [error, setError] = useState<string | undefined>('')
+  const [success, setSuccess] = useState<string | undefined>('')
 
   // 1. form 정의
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -37,6 +37,9 @@ export const RegisterForm = () => {
 
   // 2. submit handler 정의
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+    setError('')
+    setSuccess('')
+
     startTransition(() => {
       register(values).then((data) => {
         setError(data.error)
@@ -109,16 +112,8 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          {error && (
-            <div className="flex items-center justify-center rounded-lg border p-4 text-sm bg-red-50 text-red-600 font-semibold">
-              {error}
-            </div>
-          )}
-          {success && (
-            <div className="flex items-center justify-center rounded-lg border p-4 text-sm bg-green-50 text-teal-600 font-semibold">
-              {success}
-            </div>
-          )}
+          {success && <SuccessBox>{success}</SuccessBox>}
+          {error && <ErrorBox>{error}</ErrorBox>}
           <Button type="submit" disabled={isPending} className="w-full">
             회원가입하기
           </Button>

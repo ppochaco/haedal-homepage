@@ -1,10 +1,12 @@
 'use client'
 
 import * as z from 'zod'
+import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { LoginSchema } from '@/schemas'
+import { login } from '@/actions/login'
 import {
   Form,
   FormControl,
@@ -16,8 +18,13 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { CardWraper } from '@/components/auth/card-wrapper'
+import { ErrorBox } from '@/components/form-state-box'
 
 export const LoginForm = () => {
+  const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState<string | undefined>('')
+  const [success, setSuccess] = useState<string | undefined>('')
+
   // 1. form 정의
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -29,7 +36,15 @@ export const LoginForm = () => {
 
   // 2. submit handler 정의
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log(values)
+    setError('')
+    setSuccess('')
+
+    startTransition(() => {
+      login(values).then((data) => {
+        setError(data.error)
+        setSuccess(data.success)
+      })
+    })
   }
 
   return (
@@ -52,6 +67,7 @@ export const LoginForm = () => {
                     <FormControl>
                       <Input
                         placeholder="haedal@gmail.com"
+                        disabled={isPending}
                         type="email"
                         {...field}
                       />
@@ -67,14 +83,20 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormLabel>비밀번호</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="******" type="password" />
+                      <Input
+                        placeholder="******"
+                        disabled={isPending}
+                        type="password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <Button type="submit" className="w-full">
+            {error && <ErrorBox>{error}</ErrorBox>}
+            <Button type="submit" disabled={isPending} className="w-full">
               로그인하기
             </Button>
           </form>
