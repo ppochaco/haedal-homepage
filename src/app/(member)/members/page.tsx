@@ -1,6 +1,6 @@
 import { auth, signOut } from "@/auth"
 
-const MembersPage = async () => {
+const MembersPage = async () => { 
   const session = await auth()
   return (
     <div>
