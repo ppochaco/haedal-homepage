@@ -13,7 +13,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: '입력된 정보를 다시 확인해주세요.' }
   }
 
-  const { email, password, username } = fields.data
+  const { email, password, user } = fields.data
 
   // 이메일로 중복 회원 검사
   const existingUser = await db.user.findUnique({
@@ -31,7 +31,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     data: {
       email,
       password: hashedPassword,
-      username,
+      user,
     },
   })
   // 추가 정보 입력 받아 DB에 추가하기

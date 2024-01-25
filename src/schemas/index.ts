@@ -10,7 +10,7 @@ export const LoginSchema = z.object({
 })
 
 export const RegisterSchema = z.object({
-  username: z.string().min(2, {
+  user: z.string().min(2, {
     message: '이름은 최소 2글자 이상이어야 합니다.',
   }),
   email: z.string().email({
